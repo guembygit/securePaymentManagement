@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Secure PaymentManagement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  	<!-- Favicons -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+  	integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+  	crossorigin="anonymous" referrerpolicy="no-referrer" />	
+  </head>
+  <body>
+   <style>
+   	/* Custom table styling */
+	.custom-table {
+	  border: 2px solid #333; /* Table border */
+	  border-radius: 10px; /* Rounded corners */
+	  overflow: hidden; /* To prevent content from overflowing */
+	}
+	
+	.custom-table thead {
+	  background-color: #343a40; /* Dark background for the table header */
+	  color: white; /* White text for header */
+	}
+	
+	.custom-table tbody tr {
+	  transition: background-color 0.3s ease; /* Smooth hover effect */
+	}
+	
+	.custom-table tbody tr:hover {
+	  background-color: #f2f2f2; /* Light grey background on hover */
+	}
+	
+	.custom-table td, .custom-table th {
+	  padding: 15px; /* Extra padding */
+	  text-align: center; /* Center-align text */
+	  vertical-align: middle; /* Vertically align text */
+	}
+	
+	.custom-table th {
+	  font-weight: bold; /* Bold header text */
+	}
+	
+	.custom-table td:first-child {
+	  font-weight: bold; /* Bold first column (index) */
+	  color: #007bff; /* Blue text for first column */
+	}
+	
+	.custom-table {
+	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding subtle shadow */
+	}
+   	
+   </style>
+   
+  	<div class="container mt-5">
+  	<h1 class="text-center mb-4">List of users</h1>
+    <a class="btn btn-success" href="/">
+		<i class="fa fa-home"></i> Accueil
+	</a>
+	<a class="btn btn-primary" href="/users/create">
+		<i class="fa fa-add"></i> Add User
+	</a>
+    <div class="table-responsive small">
+    	<table class="table table-striped table-sm custom-table">
+		  <thead class="table-dark">
+		    <tr>
+		      <th scope="col">ID</th>
+		      <th scope="col">Full name</th>
+		      <th scope="col">Number</th>
+		      <th scope="col">Email</th>
+		      <th scope="col">Address</th>
+		      <th scope="col">CreatedAt</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<tr th:each="user : ${users}">
+		  		<td th:text="${user.id}"></td>
+		  		<td th:text="${user.lastName}+' '+${user.firstName}"></td>
+		  		<td th:text="${user.number}"></td>
+		  		<td th:text="${user.email}"></td>
+		  		<td th:text="${user.address}"></td>
+		  		<td th:text="${user.createdAt}"></td>
+		  		<td style="white-space:nowrap">
+		  			<a class="btn btn-primary btn-sm" th:href="@{/users/edit(id=${user.id})}">
+		  				<i class="fa fa-edit"></i>
+		  			</a>
+			      	<a class="btn btn-danger btn-sm" th:href="@{/users/delete(id=${user.id})}"
+			      	onclick="return confirm('Are you sure?')">
+			      		<i class="fa fa-trash"></i>
+			      	</a>
+		  		</td>
+		  	</tr>
+		  </tbody>
+		</table>
+    </div>
+  	</div>
+    
+	
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
