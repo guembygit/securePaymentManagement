@@ -17,7 +17,8 @@ public class User {
 	private String number;
 	private String address;
 	private String passwords;
-	private Date createdAt;
+	private Date createdAtUser;
+	
 	public int getId() {
 		return id;
 	}
@@ -60,12 +61,13 @@ public class User {
 	public void setPasswords(String passwords) {
 		this.passwords = passwords;
 	}
-	public Date getCreatedAt() {
-		return createdAt;
+	public Date getCreatedAtUser() {
+		return createdAtUser;
 	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedAtUser(Date createdAtUser) {
+		this.createdAtUser = createdAtUser;
 	}
+	
 	
 	
 }

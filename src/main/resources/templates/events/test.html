@@ -67,26 +67,26 @@
 		  <thead class="table-dark">
 		    <tr>
 		      <th scope="col">ID</th>
+		      <th scope="col">FullName</th>
 		      <th scope="col">Events</th>
 		      <th scope="col">Mountant</th>
-		      <th scope="col">CreatedAt</th>
-		      <th scope="col">Actions</th>
+		      <th scope="col">Months</th>
+		      <th scope="col">Date</th>
+		      <th scope="col">Factures</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		  	<tr th:each="event : ${events}">
-		  		<td th:text="${event.idEvent}"></td>
-		  		<td th:text="${event.libelleEvent}"></td>
-		  		<td th:text="${event.mountant}"></td>
-		  		<td th:text="${event.createdAt}"></td>
-		  		<td style="white-space:nowrap">
-		  			<a class="btn btn-primary btn-sm" th:href="@{/events/edit(id=${event.idEvent})}">
-		  				<i class="fa fa-edit"></i>
-		  			</a>
-			      	<a class="btn btn-danger btn-sm" th:href="@{/events/delete(id=${event.idEvent})}"
-			      	onclick="return confirm('Are you sure?')">
-			      		<i class="fa fa-trash"></i>
-			      	</a>
+		  	<tr th:each="xs : ${usersEvents}">
+		  		<td th:text="${xs[0]}"></td>
+		  		<td th:text="${xs[13]}"></td>
+		  		<td th:text="${xs[7]}"></td>
+		  		<td th:text="${xs[8]}"></td>
+		  		<td th:text="${xs[2]}"></td>
+		  		<td th:text="${xs[4]}"></td>
+		  		<td>
+		  			<button class="btn btn-info">
+		  				<i class="fa fa-upload"></i>
+		  			</button>
 		  		</td>
 		  	</tr>
 		  </tbody>

@@ -60,7 +60,7 @@ public class UsersController {
 		user.setNumber(userDto.getNumber());
 		user.setAddress(userDto.getAddress());
 		user.setPasswords(userDto.getPasswords());
-		user.setCreatedAt(new Date());
+		user.setCreatedAtUser(new Date());
 		
 		repo.save(user);
 		

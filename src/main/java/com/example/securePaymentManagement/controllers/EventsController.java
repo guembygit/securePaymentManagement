@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.securePaymentManagement.Dto.EventDto;
 import com.example.securePaymentManagement.Models.Event;
+import com.example.securePaymentManagement.Models.User;
+import com.example.securePaymentManagement.Models.UserEvent;
 import com.example.securePaymentManagement.Repositories.EventRepository;
+import com.example.securePaymentManagement.Repositories.UserEventRepository;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +36,15 @@ public class EventsController {
 		model.addAttribute("events", events);
 		return "events/index";
 	}
+	
+	@GetMapping("/test")
+	public String findByLastName(Model model) {
+		//List<Event> x = repo.findByLibelleEvent();
+		//List<UserEvent> x = repo2.findByLibelleEvent();
+		List<Object[]> usersEvents = repo.findUsersWithEvents();
+		model.addAttribute("usersEvents", usersEvents);
+        return "events/test";  // Utilisation du repository
+    }
 	
 	@GetMapping("/create")
 	public String showCreatePage(Model model){
