@@ -55,6 +55,11 @@
    
   	<div class="container mt-5">
   	<h1 class="text-center mb-4">List of Entrances</h1>
+  	<p class="text-center">
+	  	<strong class="text-center mb-4" style="font-weight:bold;font-size:25px;">Solde:</strong>
+	  	<strong class="text-center mb-4" style="font-weight:bold;font-size:25px;color:green;" th:text="${balance}"></strong>
+  	<p>
+  	<div class="my-5"></div>
     <a class="btn btn-success" href="/">
 		<i class="fa fa-home"></i> Accueil
 	</a>
@@ -79,18 +84,21 @@
 		  <tbody>
 		  	<tr th:each="xs : ${usersEvents}">
 		  		<td th:text="${xs[0]}"></td>
-		  		<td th:text="${xs[18]}"></td>
-		  		<td th:text="${xs[12]}"></td>
-		  		<td th:text="${'+'+xs[5]}" style="color:green; font-weight:bold"></td>
-		  		<td th:text="${xs[2]}"></td>
+		  		<td th:text="${xs[1]}"></td>
+		  		<td th:text="${xs[3]}"></td>
+		  		<td th:text="${'+'+xs[4]}" style="color:green; font-weight:bold"></td>
+		  		<td th:text="${xs[5]}"></td>
 		  		<td th:text="${xs[6]}"></td>
-		  		<td th:text="${xs[4]}"></td>
+		  		<td th:text="${xs[7]}"></td>
 		  		<td>
 		  			<a class="btn btn-default btn-sm" th:href="@{/users_events/invoice(id=${xs[0]})}">
 		  				<i class="fa fa-upload"></i>
 		  			</a>
 		  			<a class="btn btn-primary btn-sm" th:href="@{/users_events/edit(id=${xs[0]})}">
 		  				<i class="fa fa-edit"></i>
+		  			</a>
+		  			<a class="btn btn-warning btn-sm" th:href="@{/users_events/cancel_entrances(id=${xs[0]})}">
+		  				<i class="fa fa-remove"></i>
 		  			</a>
 		  		</td>
 		  	</tr>

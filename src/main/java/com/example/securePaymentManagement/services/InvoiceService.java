@@ -9,9 +9,12 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.securePaymentManagement.Models.Invoice;
+import com.example.securePaymentManagement.Models.UserEvent;
+import com.example.securePaymentManagement.Repositories.EventRepository;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -42,6 +45,9 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 
 @Service
 public class InvoiceService {
+	
+	@Autowired
+	private EventRepository repo;
 	/*public String generateInvoicePDF() throws Exception {
         String pdfPath = "invoice_.pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
@@ -185,7 +191,7 @@ public class InvoiceService {
         //document.add(new AreaBreak()); // Saut de page
     }*/
 	
-	public String generateInvoicePDF() throws Exception {
+	public String generateInvoicePDF(int id) throws Exception {
 		
 		String pdfPath = "invoice_.pdf";
         PdfWriter writer = new PdfWriter(pdfPath);
@@ -226,14 +232,16 @@ public class InvoiceService {
         float fullwidth[]= {threecol*3};
         Paragraph ones = new Paragraph();
         
-        
+        List<Object[]> invoices = repo.getInvoiceData(id);
+		Object[] invoiceData = invoices.get(0);
+        		
         Table table = new Table(twocolumnWidth);
         table.addCell(new Cell().add(new Paragraph("Invoice")).setFontSize(20f).setBorder(Border.NO_BORDER).setBold());
         Table nestedtable = new Table(new float[] {twocol/2, twocol/2});
         nestedtable.addCell(getHeaderTextCell("Invoice No.")).setBold();
-        nestedtable.addCell(getHeaderTextCellValue("RK677888"));
+        nestedtable.addCell(getHeaderTextCellValue(invoiceData[8].toString()));
         nestedtable.addCell(getHeaderTextCell("Invoice Date")).setBold();
-        nestedtable.addCell(getHeaderTextCellValue("23/07/2024"));
+        nestedtable.addCell(getHeaderTextCellValue(invoiceData[9].toString()));
         
         table.addCell(new Cell().add(nestedtable).setBorder(Border.NO_BORDER));
         
@@ -248,30 +256,30 @@ public class InvoiceService {
         
         Table twoColTable = new Table(twocolumnWidth);
         twoColTable.addCell(getBillingandShippingCell("Billing Information"));
-        twoColTable.addCell(getBillingandShippingCell("Shipping Information"));
+        twoColTable.addCell(getBillingandShippingCell("Member Information"));
         document.add(twoColTable.setMarginBottom(12f));
         
         Table twoColTable2 = new Table(twocolumnWidth);
         twoColTable2.addCell(getCell10fLeft("Compagny", true));
         twoColTable2.addCell(getCell10fLeft("Name", true));
-        twoColTable2.addCell(getCell10fLeft("Coding Error", false));
-        twoColTable2.addCell(getCell10fLeft("Coding", false));
+        twoColTable2.addCell(getCell10fLeft("ONG", false));
+        twoColTable2.addCell(getCell10fLeft(invoiceData[1].toString(), false));
         document.add(twoColTable2);
         
         Table twoColTable3 = new Table(twocolumnWidth);
-        twoColTable3.addCell(getCell10fLeft("Name", true));
+        twoColTable3.addCell(getCell10fLeft("City", true));
         twoColTable3.addCell(getCell10fLeft("Address", true));
-        twoColTable3.addCell(getCell10fLeft("Les Halles", false));
-        twoColTable3.addCell(getCell10fLeft("2 Avenue De Gaulle\n 75018, Paris", false));
+        twoColTable3.addCell(getCell10fLeft("Paris", false));
+        twoColTable3.addCell(getCell10fLeft(invoiceData[3].toString(), false));
         document.add(twoColTable3);
         
         float oneColumnwidth[]= {twocol150};
         
         Table oneColTable1 = new Table(oneColumnwidth);
         oneColTable1.addCell(getCell10fLeft("Address", true));
-        oneColTable1.addCell(getCell10fLeft("8570 Gulseth Terra, 3324 Eastwood\n Springfi, Ma, 01114", false));
+        oneColTable1.addCell(getCell10fLeft("75000 PARIS, \n île de France", false));
         oneColTable1.addCell(getCell10fLeft("Email", false));
-        oneColTable1.addCell(getCell10fLeft("u@gmail.com", false));
+        oneColTable1.addCell(getCell10fLeft("ONG@gmail.com", false));
         document.add(oneColTable1.setMarginBottom(10f));
         
         Table tableDivider2 = new Table(fullwidth);
@@ -290,15 +298,14 @@ public class InvoiceService {
                 
         Table threeColTable2 = new Table(threeColumnWidth);
         
-        float total = 500;
-        int totalItems = 500;
-        int totalPages = (int) Math.ceil((double) totalItems / 5);
+        float total = 0;
+        //int totalItems = 500;
+        //int totalPages = (int) Math.ceil((double) totalItems / 5);
         
-        for (int page = 0; page < totalPages; page++) {
-        	threeColTable2.addCell(new Cell().add(new Paragraph("Mariage")).setBorder(Border.NO_BORDER)).setMarginLeft(10f);
-            threeColTable2.addCell(new Cell().add(new Paragraph("2")).setBold().setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph("500")).setBold().setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);            
-        }
+    	threeColTable2.addCell(new Cell().add(new Paragraph(invoiceData[4].toString())).setBorder(Border.NO_BORDER)).setMarginLeft(10f);
+        threeColTable2.addCell(new Cell().add(new Paragraph("1")).setBold().setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        threeColTable2.addCell(new Cell().add(new Paragraph(invoiceData[5].toString())).setBold().setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);            
+    
         
      // Ajouter le gestionnaire d'événements de pied de page
         
@@ -314,7 +321,7 @@ public class InvoiceService {
         Table threeColTable3 = new Table(threeColumnWidth);        
         threeColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(10f);
         threeColTable3.addCell(new Cell().add(new Paragraph("Total")).setBold().setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-        threeColTable3.addCell(new Cell().add(new Paragraph("500")).setBold().setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
+        threeColTable3.addCell(new Cell().add(new Paragraph(invoiceData[5].toString())).setBold().setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
         
         document.add(threeColTable3);
         document.add(tableDivider2);
@@ -325,8 +332,12 @@ public class InvoiceService {
         tb.addCell(new Cell().add(new Paragraph("TERMS AND CONDITIONS\n")).setBold().setBorder(Border.NO_BORDER));
         
         List<String> TncList = new ArrayList();
-        TncList.add("1- lorem ipsu");
-        TncList.add("2- lorem ipsu");
+        TncList.add("1. Acceptation des Termes En acceptant cette facture, le client reconnaît avoir lu et accepté les présentes conditions générales de vente.");
+        TncList.add("2. Prix Tous les prix sont indiqués en [devise] et incluent/excluent [préciser si les taxes sont incluses ou non, par exemple, TVA].");
+        TncList.add("3. Paiement Le paiement est dû dans les [nombre de jours] jours suivant la date de facturation. Les paiements peuvent être effectués par [modes de paiement acceptés, par exemple, virement bancaire, carte de crédit].");
+        TncList.add("4. Réclamations Toute réclamation concernant la facture ou les produits/services fournis doit être effectuée dans un délai de [nombre de jours] jours suivant la réception de la facture.");
+        TncList.add("5. Droit Applicable Ces conditions sont régies par le droit [pays/région]. Tout litige sera soumis aux tribunaux compétents de [localité].");
+        TncList.add("6. Modifications [Votre entreprise] se réserve le droit de modifier ces conditions à tout moment. Les modifications seront effectives dès leur publication.");
         
         for(String tnc:TncList) {
         	tb.addCell(new Cell().add(new Paragraph(tnc)).setBorder(Border.NO_BORDER));
@@ -335,7 +346,7 @@ public class InvoiceService {
         document.add(tb);
         
      // Ajouter le QR code
-        ByteArrayOutputStream qrCodeStream = generateQRCode("https://example.com/invoice/invoice");
+        ByteArrayOutputStream qrCodeStream = generateQRCode("http://192.168.1.120:8080/users_events/invoice?id="+id);
         Image qrCodeImage = new Image(ImageDataFactory.create(qrCodeStream.toByteArray()));
         document.add(qrCodeImage);
 

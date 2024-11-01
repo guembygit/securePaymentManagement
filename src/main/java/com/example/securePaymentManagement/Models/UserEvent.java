@@ -24,7 +24,7 @@ public class UserEvent {
 	
 	@Nullable
 	private int statutDeposit;
-	
+		
 	@Nullable
 	private String amountantTransaction;
 	
@@ -37,6 +37,14 @@ public class UserEvent {
 	@Nullable
 	@Column(columnDefinition = "TEXT")
 	private String aboutEvent;
+	
+	private int cancelUsersEvents;
+	
+	private int idReferenceUserEvent;
+	
+	private Date canceledAtUserEvent;
+	
+	private String invoiceNumber;
 	
 	@Nullable
 	private Date createdAtEvent;
@@ -100,6 +108,30 @@ public class UserEvent {
 	}
 	public void setAboutEvent(String aboutEvent) {
 		this.aboutEvent = aboutEvent;
+	}
+	public int getCancelUsersEvents() {
+		return cancelUsersEvents;
+	}
+	public void setCancelUsersEvents(int cancelUsersEvents) {
+		this.cancelUsersEvents = cancelUsersEvents;
+	}
+	public int getIdReferenceUserEvent() {
+		return idReferenceUserEvent;
+	}
+	public void setIdReferenceUserEvent(int idReferenceUserEvent) {
+		this.idReferenceUserEvent = idReferenceUserEvent;
+	}
+	public Date getCanceledAtUserEvent() {
+		return canceledAtUserEvent;
+	}
+	public void setCanceledAtUserEvent(Date canceledAtUserEvent) {
+		this.canceledAtUserEvent = canceledAtUserEvent;
+	}
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
 	}
 	
 	
